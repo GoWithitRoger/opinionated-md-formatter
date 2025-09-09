@@ -2,7 +2,7 @@
 
 # Opinionated Markdown Formatter for Drafts
 
-A Drafts "action" (script) that applies a consistent, clean, and readable format to Markdown documents. It is designed to be safe to run on an already-formatted document, without making unwanted changes (hopefully). It's especially useful to clean up markdown text pasted into Drafts, as drafts seem to add extra blank lines.
+A Drafts "action" (script) that applies a consistent, clean, and readable format to Markdown documents. It is designed to be safe to run on an already-formatted document, without making unwanted changes (hopefully). It's especially useful to clean up markdown text pasted into Drafts as drafts seems to add extra blank lines.
 
 
 ## What is Drafts? ✍️
