@@ -1,4 +1,3 @@
-
 // Get the current draft's content
 var text = draft.content;
 

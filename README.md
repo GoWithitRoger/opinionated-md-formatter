@@ -1,15 +1,16 @@
+<img src="icon.svg" alt="Magic Format Icon" width="48px">
+
 # Opinionated Markdown Formatter for Drafts
 
-A Drafts script that applies a consistent, clean, and readable format to Markdown documents. It is designed to be safe to run on an already-formatted document, without making unwanted changes (hopefully). It's especially useful to clean up markdown text pasted into Drafts, as drafts seem to add extra blank lines.
+A Drafts "action" (script) that applies a consistent, clean, and readable format to Markdown documents. It is designed to be safe to run on an already-formatted document, without making unwanted changes (hopefully). It's especially useful to clean up markdown text pasted into Drafts, as drafts seem to add extra blank lines.
 
----
 
 ## What is Drafts? ✍️
 Drafts is a quick-capture notes and writing application for iOS, macOS, and watchOS. This repository contains a JavaScript-based action for use in the Drafts app.
 
 Learn more about Drafts on their [official website](https://getdrafts.com/).
 
----
+
 
 ## Features ✨
 This Draft's action performs the following formatting changes:
@@ -29,7 +30,7 @@ This Draft's action performs the following formatting changes:
     * Preserves manually created blank lines between a parent list item and its indented child.
     * Safely handles various Markdown syntax without conflicts.
 
----
+
 
 ## Installation 🛠️
 You can install this script manually with a quick copy and paste.
@@ -41,7 +42,6 @@ You can install this script manually with a quick copy and paste.
 
 The action is now ready to use.
 
----
 
 ## Usage
 
@@ -49,7 +49,7 @@ The action is now ready to use.
 2.  Run the "Opinionated Markdown Formatter" action from your action list.
 3.  The script will create and load a new, formatted version of your draft.
 
----
+
 
 ## The Script
 The complete script is included below for transparency and manual installation.

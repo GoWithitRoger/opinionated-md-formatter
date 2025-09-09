@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-labelledby="title" role="img">
+  <title id="title">Magic Markdown Formatter Icon</title>
+
+  <style>
+    /* Darker purple for the formatted text lines */
+    .text-lines-stroke {
+      stroke: #6A0DAD; /* Deep Purple */
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    /* Lighter, more vibrant purple for the magic wand */
+    .wand-stroke {
+      stroke: #9370DB; /* Medium Purple */
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    .wand-fill {
+      fill: #9370DB; /* Medium Purple */
+      stroke: none;
+    }
+    /* A bright, almost white purple for the sparkles */
+    .sparkle-fill {
+      fill: #E6E6FA; /* Lavender (very light purple) */
+      stroke: none;
+    }
+  </style>
+
+  <g class="text-lines-stroke">
+    <path d="M55 25 H 90" />
+    <path d="M55 40 H 85" />
+    <path d="M55 55 H 80" />
+  </g>
+
+  <g>
+    <path class="wand-stroke" d="M10 90 L48 52" />
+    <circle class="wand-fill" cx="55" cy="45" r="8"/>
+  </g>
+
+  <g class="sparkle-fill">
+    <path d="M45 28 l 3 8 l -8 -3 l 5 -5 z" />
+    <path d="M30 45 l 3 8 l -8 -3 l 5 -5 z" />
+    <path d="M65 65 l 3 8 l -8 -3 l 5 -5 z" />
+  </g>
+
+</svg>
