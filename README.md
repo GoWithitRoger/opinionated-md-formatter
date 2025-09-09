@@ -1,12 +1,20 @@
 # Opinionated Markdown Formatter for Drafts
 
-A Drafts script that applies a consistent, clean, and readable format to your Markdown documents. It is designed to be "idempotent," meaning it's safe to run on an already-formatted document without making unwanted changes.
+A Drafts script that applies a consistent, clean, and readable format to Markdown documents. It is designed to be safe to run on an already-formatted document, without making unwanted changes (hopefully).
 
-This script is ideal for cleaning up notes, preparing documents for publication, or simply maintaining a uniform style across all your Markdown files.
+
+
+## What is Drafts? ✍️
+
+Drafts is a quick-capture notes and writing application for iOS, macOS, and watchOS. This repository contains a JavaScript-based action for use in the Drafts app.
+
+Learn more about Drafts on their [official website](https://getdrafts.com/).
+
+---
 
 ## Features ✨
 
-This action performs the following formatting changes:
+This Draft's action performs the following formatting changes:
 
 * **Syntax Standardization:**
     * Converts `**bold**` text to use asterisks.
@@ -23,6 +31,8 @@ This action performs the following formatting changes:
     * Preserves manually created blank lines between a parent list item and its indented child.
     * Safely handles various Markdown syntax without conflicts.
 
+---
+
 ## Installation 🛠️
 
 You can install this script manually with a quick copy and paste.
@@ -34,11 +44,15 @@ You can install this script manually with a quick copy and paste.
 
 The action is now ready to use.
 
+---
+
 ## Usage
 
 1.  Open a draft containing Markdown text.
 2.  Run the "Opinionated Markdown Formatter" action from your action list.
 3.  The script will create and load a new, formatted version of your draft.
+
+---
 
 ## The Script
 
@@ -145,6 +159,8 @@ script.complete();
 ```
 
 </details>
+
+---
 
 ## License
 
