@@ -1,84 +1,112 @@
 // Get the current draft's content
 var text = draft.content;
 
-// --- 1. SYNTAX STANDARDIZATION ---
-// The order of these rules is critical to avoid conflicts.
+// --- 1. ISOLATE ALL BLOCK-LEVEL ELEMENTS ---
+// This new architecture protects all major blocks from the formatting engine.
+const codeBlocks = [];
+const h2Headings = [];
+const h3Headings = [];
+const hrules = [];
 
-// Change bold from __ to **
+// Protect Indented Code Blocks
+text = text.replace(/(?:\n\n|\A)((?:(?: {4,}|\t)(?![-+*] ).*\n?)+)/g, (match, p1) => {
+    const placeholder = `@@CODE_BLOCK_${codeBlocks.length}@@`;
+    codeBlocks.push(p1);
+    return `\n\n${placeholder}\n\n`;
+});
+
+// Protect ## Headings
+text = text.replace(/^## (.*)/gm, (match, p1) => {
+    const placeholder = `@@H2_HEADING_${h2Headings.length}@@`;
+    h2Headings.push(p1);
+    return placeholder;
+});
+
+// Protect ### Headings
+text = text.replace(/^### (.*)/gm, (match, p1) => {
+    const placeholder = `@@H3_HEADING_${h3Headings.length}@@`;
+    h3Headings.push(p1);
+    return placeholder;
+});
+
+// Protect Horizontal Rules
+text = text.replace(/^\* \* \*$/gm, () => {
+    const placeholder = `@@HRULE_${hrules.length}@@`;
+    hrules.push('* * *');
+    return placeholder;
+});
+
+
+// --- 2. SYNTAX STANDARDIZATION (on remaining text) ---
 text = text.replace(/__(.*?)__/g, '**$1**');
-// Change *italic* to _italic_ (but not **)
 text = text.replace(/(?<!\*)\*([^\s\*].*?[^\s\*])\*(?!\*)/g, '_$1_');
-// Change horizontal rules to "* * *"
 text = text.replace(/^---$/gm, '* * *');
-// PERMANENT FIX: Change "* " to "- " only if it's a real list item, ignoring horizontal rules.
 text = text.replace(/^(\s*)\* (?! ?\* ?\*)/gm, '$1- ');
 
 
-// --- 2. SPACING AND LAYOUT ---
-// The main loop is the single source of truth for spacing.
+// --- 3. SPACING AND LAYOUT (on remaining text) ---
 let lines = text.split('\n');
 let newLines = [];
-
 const getIndent = line => line.search(/\S|$/);
-
-let prev = {
-    line: '',
-    isListItem: false,
-    isBlank: true,
-    indent: -1,
-};
+let prev = { line: '', isListItem: false, isBlank: true, indent: -1 };
 
 for (const currentLine of lines) {
-    // Correct for non-breaking spaces before processing.
     const cleanLine = currentLine.replace(/\u00A0/g, ' ');
-    const isListItem = /^\s*[-+]/.test(cleanLine);
+    const isListItem = /^\s*[-+.\d]/.test(cleanLine);
     const isBlank = cleanLine.trim() === '';
-    const indent = getIndent(cleanLine); // Call the standalone function
+    const indent = getIndent(cleanLine);
 
     let addBlankLine = false;
 
-    // Condition 1: Out-denting (e.g., child item followed by parent item)
-    if (isListItem && prev.isListItem && indent < prev.indent) {
-        addBlankLine = true;
-    }
-    // Condition 2 (Parent to Child) has been REMOVED for stability.
-    
-    // Condition 3: Top-level Sibling items
-    else if (isListItem && prev.isListItem && indent === 0 && prev.indent === 0) {
-        addBlankLine = true;
-    }
-    // Condition 4: Paragraph to a Top-level item
-    else if (isListItem && indent === 0 && !prev.isListItem && !prev.isBlank) {
+    // Add blank lines between ordered list items
+    if (/^\s*\d+\./.test(cleanLine) && prev.isListItem && /^\s*\d+\./.test(prev.line)) {
         addBlankLine = true;
     }
 
     if (addBlankLine && !prev.isBlank) {
         newLines.push('');
     }
-
-    newLines.push(currentLine); // Push the original line to preserve its whitespace characters
+    newLines.push(currentLine);
 
     prev.line = cleanLine;
     prev.isListItem = isListItem;
     prev.isBlank = isBlank;
     prev.indent = indent;
 }
-
 text = newLines.join('\n');
 
 
-// --- 3. FINAL CLEANUP ---
-// Rule A: Ensure a blank line after a top-level # heading.
-text = text.replace(/(^# .*\n)(?!(\s*\n|\s*$))/gm, '$1\n');
-// Rule B: Ensure a blank line after any heading if it is followed by a list item.
-text = text.replace(/(^#+ .*)\n(\s*[-+]\s.*)/gm, '$1\n\n$2');
-// Ensure blank lines around horizontal rules.
-text = text.replace(/^\* \* \*$/gm, '\n* * *\n');
-// Consolidate any sequences of 3+ newlines into a single blank line.
+// --- 4. RESTORE BLOCKS WITH PERFECT SPACING ---
+// Restore ## Headings with two preceding blank lines
+for (let i = 0; i < h2Headings.length; i++) {
+    text = text.replace(`@@H2_HEADING_${i}@@`, `\n\n## ${h2Headings[i]}`);
+}
+// Restore ### Headings with one preceding blank line
+for (let i = 0; i < h3Headings.length; i++) {
+    text = text.replace(`@@H3_HEADING_${i}@@`, `\n### ${h3Headings[i]}`);
+}
+// Restore Horizontal Rules with one preceding and succeeding blank line
+for (let i = 0; i < hrules.length; i++) {
+    text = text.replace(`@@HRULE_${i}@@`, `\n* * *\n`);
+}
+// Restore Code Blocks with one preceding and succeeding blank line
+for (let i = 0; i < codeBlocks.length; i++) {
+    const trimmedBlock = codeBlocks[i].trim();
+    text = text.replace(`@@CODE_BLOCK_${i}@@`, `\n${trimmedBlock}\n`);
+}
+
+// --- 5. FINAL CLEANUP ---
+// Handle spacing for the main # H1 heading
+text = text.replace(/(^# .*)\n(?![\n\s])/gm, '$1\n\n');
+// Remove blank lines between simple, same-level unordered list items.
+text = text.replace(/(^\s*-\s.*)\n\n+(?=\s*-)/gm, '$1\n');
+// Collapse any excess newlines created during replacement
 text = text.replace(/\n{3,}/g, '\n\n');
+// Remove any leading whitespace from the start of the document
+text = text.trimStart();
 
 
-// --- 4. DRAFT CREATION ---
+// --- 6. DRAFT CREATION ---
 let d = Draft.create();
 for (let tag of draft.tags) {
   d.addTag(tag);
@@ -89,6 +117,6 @@ d.update();
 editor.load(d);
 editor.activate();
 
-// --- 5. COMPLETE ASYNC EXECUTION ---
-// Notify Drafts that the script has finished its work.
+
+// --- 7. COMPLETE ASYNC EXECUTION ---
 script.complete();
