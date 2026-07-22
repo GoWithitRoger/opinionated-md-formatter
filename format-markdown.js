@@ -102,8 +102,8 @@ text = text.replace(/(^# .*)\n(?![\n\s])/gm, '$1\n\n');
 text = text.replace(/(^\s*-\s.*)\n\n+(?=\s*-)/gm, '$1\n');
 // Collapse any excess newlines created during replacement
 text = text.replace(/\n{3,}/g, '\n\n');
-// Remove any leading whitespace from the start of the document
-text = text.trimStart();
+// Normalize leading and trailing whitespace so repeated runs stay stable
+text = text.trim();
 
 
 // --- 6. DRAFT CREATION ---
