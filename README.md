@@ -1,11 +1,11 @@
 # Opinionated Markdown Formatter for Drafts
 
 A small JavaScript action for [Drafts](https://getdrafts.com/) that applies a consistent Markdown
-style to the current draft. It creates a new formatted draft, preserves the original draft and its
-tags, and is intended to be safe to run more than once.
+style to the current draft. It creates a formatted copy, leaves the original and its tags alone, and
+produces the same result when run again.
 
-This is a personal, opinionated hobby tool rather than a general-purpose Markdown formatter. Its
-spacing choices may not match yours, so try it on disposable text before adopting it.
+I wrote this for my own Drafts workflow, so its spacing choices may not match yours. Try it on
+disposable text before adopting it.
 
 ## Formatting choices
 
