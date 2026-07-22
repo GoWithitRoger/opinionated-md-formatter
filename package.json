@@ -1,0 +1,14 @@
+{
+  "name": "opinionated-md-formatter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An opinionated Markdown formatting action for Drafts",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
