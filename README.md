@@ -4,8 +4,8 @@ A small JavaScript action for [Drafts](https://getdrafts.com/) that applies a co
 style to the current draft. It creates a formatted copy, leaves the original and its tags alone, and
 produces the same result when run again.
 
-I wrote this for my own Drafts workflow, so its spacing choices may not match yours. Try it on
-disposable text before adopting it.
+The action follows one personal Drafts workflow, so its spacing choices may not match yours. Try it
+on disposable text before adopting it.
 
 ## Formatting choices
 
